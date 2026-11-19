@@ -1,0 +1,33 @@
+{
+ "sujet": "Démonstration : une fusée miniature décolle",
+ "sources": ["Démo"],
+ "script": {
+  "titre": "Une fusée en pâte décolle !",
+  "scenes": [
+   {"texte": "Et si je te disais qu'une fusée vient de décoller… depuis une table de cuisine ?",
+    "decor": "a cosy kitchen table with a checkered tablecloth",
+    "mascotte": "surpris",
+    "acteurs": [{"description": "a small red rocket with white fins", "position": "droite", "taille": "grand",
+                 "entree": "tombe", "mot_entree": "fusée", "action": "tremble", "mot_action": "décoller"}]},
+   {"texte": "Ceci est une vidéo de démonstration. Les images sont dessinées par le programme, sans intelligence artificielle.",
+    "decor": "a workshop with tools",
+    "mascotte": "neutre",
+    "acteurs": [{"description": "a little clay man", "position": "gauche", "taille": "moyen",
+                 "entree": "glisse_gauche", "mot_entree": "démonstration", "action": "saute", "mot_action": "programme"},
+                {"description": "a globe", "position": "droite", "taille": "petit",
+                 "entree": "pop", "mot_entree": "images", "action": "tourne", "mot_action": "intelligence"}]},
+   {"texte": "Avec les vraies clés, chaque décor et chaque personnage sont modelés par l'IA, en pâte à modeler.",
+    "decor": "a night sky with stars",
+    "mascotte": "content",
+    "acteurs": [{"description": "a globe", "position": "centre", "taille": "grand",
+                 "entree": "glisse_droite", "mot_entree": "décor", "action": "grossit", "mot_action": "personnage"}]},
+   {"texte": "Trois sujets d'actu par jour, rien que pour toi. Abonne-toi pour l'actu de demain !",
+    "decor": "a green hill",
+    "mascotte": "content",
+    "acteurs": [{"description": "a little clay man", "position": "droite", "taille": "moyen",
+                 "entree": "pop", "mot_entree": "sujets", "action": "saute", "mot_action": "Abonne"}]}
+  ],
+  "legende": "Démonstration de la fabrique d'actu en pâte à modeler #actu #demo",
+  "faits": []
+ }
+}

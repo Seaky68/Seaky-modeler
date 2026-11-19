@@ -1,0 +1,18 @@
+{
+  "name": "actu-pate",
+  "private": true,
+  "scripts": {
+    "render": "remotion render src/index.ts Actu out/video.mp4 --props=public/run/plan.json"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.545",
+    "@fontsource/fredoka": "^5.2.5",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "remotion": "4.0.545"
+  },
+  "devDependencies": {
+    "@types/react": "18.3.12",
+    "typescript": "5.6.3"
+  }
+}
