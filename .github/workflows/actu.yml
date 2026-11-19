@@ -1,0 +1,82 @@
+name: Actu en pâte à modeler
+
+on:
+  schedule:
+    # Heures en UTC. En hiver : 8 h 13, 12 h 43 et 18 h 13 à Paris (une heure plus tard en été).
+    - cron: "13 7 * * *"
+    - cron: "43 11 * * *"
+    - cron: "13 17 * * *"
+  workflow_dispatch:
+    inputs:
+      demo:
+        description: "Vidéo de démonstration (sans clé ni crédit)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: actu-pate
+  cancel-in-progress: false
+
+jobs:
+  video:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      TZ: Europe/Paris
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      FAL_KEY: ${{ secrets.FAL_KEY }}
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      VOIX: ${{ vars.VOIX }}
+      VITESSE_VOIX: ${{ vars.VITESSE_VOIX }}
+      MODELE_CLAUDE: ${{ vars.MODELE_CLAUDE }}
+      FAL_MODEL: ${{ vars.FAL_MODEL }}
+      CHROME: /usr/bin/google-chrome
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Installer ffmpeg
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+
+      - name: Installer les dépendances
+        run: |
+          pip install -r requirements.txt
+          npm ci --no-audit --no-fund
+
+      - name: Fabriquer la vidéo
+        run: |
+          if [ "${{ inputs.demo }}" = "true" ]; then
+            python pipeline/main.py --demo
+          else
+            python pipeline/main.py
+          fi
+
+      - name: Garder la vidéo 7 jours
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: actu-${{ github.run_number }}
+          path: out/
+          retention-days: 7
+          if-no-files-found: ignore
+
+      - name: Enregistrer l'historique et la mascotte
+        if: success()
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add data/historique.json assets/mascotte
+          git diff --cached --quiet || (git commit -m "Actu : nouvelle vidéo" && git pull --rebase && git push)
